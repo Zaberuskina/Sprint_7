@@ -3,15 +3,15 @@ from data import BASE_URL
 import requests
 
 class TestCreateCourier:
-    @allure.description('Создание курьера')
-    def test_create_courier(self, courier_methods):
-        login_pass, response = courier_methods.register_new_courier_and_return_login_password()
+    @allure.title('Создание курьера')
+    def test_create_courier(self, courier):
+        login_pass, response = courier
         assert len(login_pass) == 3 and response.status_code == 201 and response.json() == {"ok": True}
 
-    @allure.description('Нельзя создать двух одинаковых курьеров')
-    def test_create_duplicate_courier(self, courier_methods):
+    @allure.title('Нельзя создать двух одинаковых курьеров')
+    def test_create_duplicate_courier(self, courier):
         # Создаем курьера и получаем его данные
-        login_pass, _ = courier_methods.register_new_courier_and_return_login_password()
+        login_pass, _ = courier
         login, password, first_name = login_pass
 
         # Пытаемся создать курьера с теми же данными
@@ -25,8 +25,8 @@ class TestCreateCourier:
         # Ожидаем, что ответ будет содержать сообщение об ошибке
         assert response.status_code == 409 and response.json()['message'] == 'Этот логин уже используется. Попробуйте другой.'
 
-    @allure.description('Обязательные поля при создании курьера')
-    def test_create_courier_missing_fields(self, courier_methods):
+    @allure.title('Обязательные поля при создании курьера')
+    def test_create_courier_missing_fields(self):
         payload = {
             "login": "test_login",
             "firstName": "test_name"

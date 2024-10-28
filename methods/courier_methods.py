@@ -2,9 +2,10 @@ import requests
 import random
 import string
 from data import BASE_URL
+import allure
 
 class CourierMethods:
-
+    @allure.step('Регистрация нового курьера и возврат логина и пароля')
     def register_new_courier_and_return_login_password(self):
         def generate_random_string(length):
             letters = string.ascii_lowercase
@@ -27,6 +28,7 @@ class CourierMethods:
 
         return login_pass, response
 
+    @allure.step('Авторизация курьера')
     def login_courier(self, login, password):
         payload = {
             "login": login,
@@ -35,6 +37,7 @@ class CourierMethods:
         response = requests.post(f'{BASE_URL}courier/login', json=payload)
         return response
 
+    @allure.step('Удаление курьера')
     def delete_courier(self, courier_id):
         response = requests.delete(f'{BASE_URL}courier/{courier_id}')
         return response

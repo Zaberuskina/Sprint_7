@@ -3,7 +3,7 @@ from data import BASE_URL
 import allure
 
 class TestGetOrders:
-    @allure.description('В теле ответа возвращается список заказов')
+    @allure.title('В теле ответа возвращается список заказов')
     def test_get_orders(self):
         response = requests.get(f'{BASE_URL}orders')
 
